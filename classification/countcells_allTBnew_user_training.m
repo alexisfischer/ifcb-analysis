@@ -1,13 +1,15 @@
-function [ ] = countcells_allTBnew_user_training(classpath_generic , in_dir, yrrange)
-%function [ ] = countcells_allTBnew_user_training(classpath_generic , in_dir, yrrange)
+function [ ] = countcells_allTBnew_user_training(classpath_generic, in_dir, path_out, yrrange)
+%function [ ] = countcells_allTBnew_user_training(classpath_generic, in_dir, path_out, yrrange)
 %For example:
-%countcells_allTBnew_user_training('C:\work\IFCB\user_training_test_data\class\classxxxx_v1\' , 'C:\work\IFCB\user_training_test_data\data\', 2014)
+%countcells_allTBnew_user_training('C:\work\IFCB\user_training_test_data\class\classXXXX_v1\' , 'C:\work\IFCB\user_training_test_data\data\', 2014)
 % Heidi M. Sosik, Woods Hole Oceanographic Institution, September 2012 / August 2015
+% modified by Alexis D. Fischer, UCSC, January 2019
 %
 %Example inputs:
-%   classpath_generic = 'C:\work\IFCB\user_training_test_data\class\classxxxx_v1\'; %USER class file location, leave xxxx in place of 4 digit year
-%   in_dir = 'C:\work\IFCB\user_training_test_data\data\'; %USER where to access data (hdr files) (url for web services, full path for local)
-%   yrrange = 2014; %USER one value or range (e.g., 2013:2014)
+%  classpath_generic = 'F:\IFCB104\class\classXXXX_v1\'; %USER class file location, leave xxxx in place of 4 digit year
+%  in_dir = 'F:\IFCB104\data\'; %USER where to access data (hdr files) (url for web services, full path for local)
+%  path_out = 'C:\Users\kudelalab\Documents\GitHub\bloom-baby-bloom\SCW\Data\IFCB_summary\class\';
+%  yrrange = 2018; %USER one value or range (e.g., 2013:2014)
 
 % countcells_allTBnew.m, modified from countcells_allTBMVCO.m
 % configured for IFCB007 and higher (except IFCB008)
@@ -27,8 +29,6 @@ end
 if (~isequal(in_dir(end), filesep) && ~urlflag)
     in_dir = [in_dir filesep];
 end
-
-path_out = [regexprep(classpath_generic, 'classxxxx_v1\', ''), 'summary' filesep];
 
 classfiles = [];
 filelist = [];
@@ -110,8 +110,7 @@ if exist('adhocthresh', 'var'),
     save([path_out 'summary_allTB_' yrrangestr] , 'class2useTB', 'classcountTB', 'classcountTB_above_optthresh', 'classcountTB_above_adhocthresh', 'ml_analyzedTB', 'mdateTB', 'filelistTB', 'adhocthresh', 'classpath_generic')
 else
     save([path_out 'summary_allTB_' yrrangestr] , 'class2useTB', 'classcountTB', 'classcountTB_above_optthresh', 'ml_analyzedTB', 'mdateTB', 'filelistTB', 'classpath_generic')
-end;
-
+end
 
 disp('Summary cell count file stored here:')
 disp([path_out 'summary_allTB_' yrrangestr])
