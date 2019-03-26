@@ -54,39 +54,49 @@ bar([total TP FP])
 legend('total in set', 'true pos', 'false pos')
 set(gca, 'xtick', 1:length(classes), 'xticklabel', [])
 text(1:length(classes), -text_offset.*ones(size(classes)), classes, 'interpreter', 'none', 'horizontalalignment', 'right', 'rotation', 45) 
-set(gca, 'position', [ 0.13 0.35 0.8 0.6])
+set(gca, 'position', [ 0.13 0.35 0.8 0.6],'fontsize',14)
 title('score threshold = 0')
 
-figure(4)
+figure('Units','inches','Position',[1 1 10 5],'PaperPositionMode','auto');
 bar([Pd Pr])
 set(gca, 'xtick', 1:length(classes), 'xticklabel', [])
-text(1:length(classes), -text_offset.*ones(size(classes)), classes, 'interpreter', 'none', 'horizontalalignment', 'right', 'rotation', 45) 
-set(gca, 'position', [ 0.13 0.35 0.8 0.6])
-legend('Pd', 'Pr')
+text(1:length(classes), -text_offset.*ones(size(classes)), classes, 'interpreter', 'none', 'horizontalalignment', 'right', 'rotation', 45,'fontsize',12) 
+set(gca, 'position', [ 0.13 0.35 0.8 0.6],'fontsize',12)
+legend('Probability of detection', 'Precision','Location','EastOutside')
+legend boxoff;
 title('score threshold = 0')
+% set figure parameters
+set(gcf,'color','w');
+print(gcf,'-dtiff','-r200','C:\Users\kudelalab\Documents\GitHub\bloom-baby-bloom\SCW\Figs\Probability_Dectection.tif');
+hold off
 
 figure(5) 
 boxplot(max(Sfit'),b.Y)
 ylabel('Out-of-bag winning scores')
 set(gca, 'xtick', 1:length(classes), 'xticklabel', [], 'ylim', [0 1])
 text(1:length(classes), -.1*ones(size(classes)), classes, 'interpreter', 'none', 'horizontalalignment', 'right', 'rotation', 45) 
-set(gca, 'position', [ 0.13 0.35 0.8 0.6])
+set(gca, 'position', [ 0.13 0.35 0.8 0.6],'fontsize',14)
 hold on, plot(1:length(classes), maxthre, '*g')
 title('score threshold = 0')
 lh = legend('optimal threshold score'); set(lh, 'fontsize', 10)
 
-figure(6)
+figure('Units','inches','Position',[1 1 8 7],'PaperPositionMode','auto');
 cplot = zeros(size(c1)+1);
 cplot(1:length(classes),1:length(classes)) = c1;
 %pcolor(log10(cplot))
 pcolor(cplot)
 set(gca, 'ytick', 1:length(classes), 'yticklabel', [])
 text( -text_offset+ones(size(classes)),(1:length(classes))+.5, classes, 'interpreter', 'none', 'horizontalalignment', 'right', 'rotation', 0)
-set(gca, 'xtick', 1:length(classes), 'xticklabel', [])
+set(gca, 'xtick', 1:length(classes), 'xticklabel', [],'fontsize',12)
 text((1:length(classes))+.5, -text_offset+ones(size(classes)), classes, 'interpreter', 'none', 'horizontalalignment', 'right', 'rotation', 45) 
 axis square, colorbar, caxis([0 maxn])
 title('manual vs. classifier; score threshold = 0')
+% set figure parameters
+set(gcf,'color','w');
+print(gcf,'-dtiff','-r200','C:\Users\kudelalab\Documents\GitHub\bloom-baby-bloom\SCW\Figs\Classifier_vs_Manual.tif');
+hold off
 
+figure(7);
 %after applying the optimal threshold
 t = repmat(maxthre,length(Yfit),1);
 win = (Sfit > t);
@@ -123,7 +133,7 @@ disp(1-sum(TP)./sum(total))
 figure(8) 
 bar([Pd3 Pr3 Pm3])
 title('optimal score threshold')
-set(gca, 'xtick', 1:length(classes2), 'xticklabel', [])
+set(gca, 'xtick', 1:length(classes2), 'xticklabel', [],'fontsize',14)
 text(1:length(classes2), -text_offset.*ones(size(classes2)), classes2, 'interpreter', 'none', 'horizontalalignment', 'right', 'rotation', 45)
 set(gca, 'position', [ 0.13 0.35 0.8 0.6])
 legend('Pd', 'Pr', 'Pmissed')
@@ -134,7 +144,7 @@ cplot = zeros(size(c3)+1);
 cplot(1:length(classes2),1:length(classes2)) = c3;
 %pcolor(log10(cplot))
 pcolor(cplot)
-set(gca, 'ytick', 1:length(classes2), 'yticklabel', [])
+set(gca, 'ytick', 1:length(classes2), 'yticklabel', [],'fontsize',14)
 text( -text_offset+ones(size(classes2)),(1:length(classes2))+.5, classes2, 'interpreter', 'none', 'horizontalalignment', 'right', 'rotation', 0)
 set(gca, 'xtick', 1:length(classes), 'xticklabel', [])
 text((1:length(classes2))+.5, -text_offset+ones(size(classes2)), classes2, 'interpreter', 'none', 'horizontalalignment', 'right', 'rotation', 45) 

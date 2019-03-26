@@ -1,20 +1,15 @@
-function [ ] = countcells_manual_user_training( resultpath, in_dir )
-%function [ ] = countcells_manual_user_training( resultpath, in_dir )
+function [ ] = countcells_manual_user_training( resultpath, in_dir, summary_dir)
+%function [ ] = countcells_manual_user_training( resultpath, in_dir, summary_dir)
 %For example:
-%countcells_manual_user_training('C:\work\IFCB\user_training_test_data\manual\' , 'C:\work\IFCB\user_training_test_data\data\')
 % Heidi M. Sosik, Woods Hole Oceanographic Institution, September 2012 / August 2015
+% modified by Alexis D. Fischer, UCSC, January 2019
 %
 %Example inputs:
-%   resultpath = 'C:\work\IFCB\user_training_test_data\class\classxxxx_v1\'; %USER manual file location
-%   in_dir = 'C:\work\IFCB\user_training_test_data\data\'; %USER where to access data (hdr files) (url for web services, full path for local)
-%
-% configured for IFCB007 and higher (except IFCB008)
-% summarizes class results for a series of manual annotation files (as saved by startMC)
-% summary file will be located in subdir \summary\ at the top level of the
-% location of the manual result files
+%resultpath = 'F:\IFCB104\manual\'; %USER manual file location
+%in_dir = 'F:\IFCB104\data\'; %USER where to access data (hdr files) (url for web services, full path for local)
+%summary_dir = 'C:\Users\kudelalab\Documents\GitHub\bloom-baby-bloom\SCW\Data\IFCB_summary\manual\'; %where summary file goes
 
-%resultpath = 'C:\work\IFCB\user_training_test_data\manual_temp\'; %USER
-%in_dir = 'C:\work\IFCB\user_training_test_data\data\'; %USER
+% summarizes class results for a series of manual annotation files (as saved by startMC)
 
 %make sure input paths end with filesep
 if ~isequal(resultpath(end), filesep)
@@ -58,20 +53,13 @@ for filecount = 1:length(filelist),
 end;
 
 class2use = class2use_manual_first;
-if ~exist([resultpath 'summary\'], 'dir')
-    mkdir([resultpath 'summary\'])
-end;
+
 datestr = date; datestr = regexprep(datestr,'-','');
-save([resultpath 'summary\count_manual_' datestr], 'matdate', 'ml_analyzed', 'classcount', 'filelist', 'class2use')
+save([summary_dir 'count_manual_' datestr], 'matdate', 'ml_analyzed', 'classcount', 'filelist', 'class2use')
 
 disp('Summary cell count file stored here:')
-disp([resultpath 'summary\count_manual_' datestr])
+disp([summary_dir 'count_manual_' datestr])
 
 return
 
-figure %example
-classnum = 3;
-plot(matdate, classcount(:,classnum)./ml_analyzed, '.-')
-datetick('x')
-ylabel([class2use{classnum} ' (mL^{-1})'])
 
