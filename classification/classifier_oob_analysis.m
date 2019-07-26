@@ -1,14 +1,19 @@
 function [ ] = classifier_oob_analysis( classifiername, out_dir)
 %[ ] = classifier_oob_analysis( classifername )
 %For example:
-classifiername = 'F:\IFCB104\manual\summary\UserExample_Trees_27Mar2019';
-out_dir = 'C:\Users\kudelalab\Documents\GitHub\bloom-baby-bloom\SCW\Figs\';
+classifiername = 'F:\IFCB104\manual\summary\UserExample_Trees_24Jul2019';
+out_dir = 'C:\Users\kudelalab\Documents\GitHub\bloom-baby-bloom\SCW\';
 % input classifier file name with full path
 % expects output from make_TreeBaggerClassifier*.m
 % Heidi M. Sosik, Woods HOle Oceanographic Institution, September 2014
 % Jan 2016, update graph labels and correct error in precision calculation
 
 load(classifiername)
+
+% classes(strmatch('Cryptophyte,NanoP_less10',classes))={'nanoplankton'};
+% classes(strmatch('Alexandrium_singlet',classes))={'Alexandrium'};
+% classes(strmatch('Cochlodinium',classes))={'Margalefidinium'};
+% classes(strmatch('Ciliates,Mesodinium,Strombidium,Tiarina,Tintinnid,Tontonia',classes))={'Ciliates'};
 
 close all
 figure;
@@ -18,7 +23,7 @@ figure;
     ylabel('Out-of-Bag Classification Error');
     ylim([0 1])
     %clear t
-    %confustion matrix for winner takes all interpretation of scores
+    %confusion matrix for winner takes all interpretation of scores
     [Yfit,Sfit,Sstdfit] = oobPredict(b);
     [mSfit, ii] = max(Sfit');
     for count = 1:length(mSfit), mSstdfit(count) = Sstdfit(count,ii(count)); t(count)= Sfit(count,ii(count)); end; 
@@ -47,13 +52,14 @@ figure('Units','inches','Position',[1 1 5 4],'PaperPositionMode','auto');
     disp('overall error rate:')
     disp(1-sum(TP)./sum(total))
     %disp(sum(sum(c1)-diag(c1)')/sum(total))
-    text_offset = 0.1;
-
+    text_offset = 0.02;
+    
     % set figure parameters
     set(gcf,'color','w');
-    print(gcf,'-dtiff','-r200',[out_dir 'feature_rank']);
+    print(gcf,'-dtiff','-r200',[out_dir 'Figs\feature_rank']);
     hold off
-
+    
+    
 figure('Units','inches','Position',[1 1 7 5],'PaperPositionMode','auto');
     bar([total TP FP])
     legend('total in set', 'true pos', 'false pos')
@@ -61,23 +67,25 @@ figure('Units','inches','Position',[1 1 7 5],'PaperPositionMode','auto');
     text(1:length(classes), -text_offset.*ones(size(classes)), classes,...
         'interpreter', 'none', 'horizontalalignment', 'right', 'rotation', 45,'fontsize',12) 
     set(gca, 'position', [ 0.13 0.35 0.8 0.6],'fontsize',12)
-    title('score threshold = 0')
+  %  title('score threshold = 0')
     % set figure parameters
     set(gcf,'color','w');
-    print(gcf,'-dtiff','-r200',[out_dir 'true_false_positives']);
+    print(gcf,'-dtiff','-r200',[out_dir 'Figs\true_false_positives']);
     hold off    
-
-    figure('Units','inches','Position',[1 1 7 6],'PaperPositionMode','auto');
+ 
+%%%% Probability Detection vs Specificity
+    figure('Units','inches','Position',[1 1 10 6],'PaperPositionMode','auto');
     bar([Pd Pr])
     set(gca, 'xtick', 1:length(classes), 'xticklabel', [])
-    text(1:length(classes), -text_offset.*ones(size(classes)), classes, 'interpreter', 'none', 'horizontalalignment', 'right', 'rotation', 45,'fontsize',12) 
+    text(1:length(classes), -text_offset.*ones(size(classes)), classes, ...
+        'interpreter', 'none', 'horizontalalignment', 'right', 'rotation', 45,'fontsize',12) 
     set(gca, 'position', [ 0.13 0.35 0.8 0.6],'fontsize',12)
-    legend('Probability of detection', 'Precision','Location','NorthOutside')
+    legend('Sensitivity', 'Precision','Location','EastOutside')
     legend boxoff;
-    title('score threshold = 0')
+%    title('score threshold = 0')
     % set figure parameters
     set(gcf,'color','w');
-    print(gcf,'-dtiff','-r200',[out_dir 'Probability_Detection']);
+    print(gcf,'-dtiff','-r200',[out_dir 'Figs\Probability_Detection']);
     hold off    
 
 figure('Units','inches','Position',[1 1 8 5],'PaperPositionMode','auto');
@@ -92,9 +100,10 @@ figure('Units','inches','Position',[1 1 8 5],'PaperPositionMode','auto');
     lh = legend('optimal threshold score'); set(lh, 'fontsize', 12)
     % set figure parameters
     set(gcf,'color','w');
-    print(gcf,'-dtiff','-r200',[out_dir 'out_of_bag_scores']);
+    print(gcf,'-dtiff','-r200',[out_dir 'Figs\out_of_bag_scores']);
     hold off       
 
+%%%% use this checkerboard as a template
 figure('Units','inches','Position',[1 1 7 6],'PaperPositionMode','auto');
     cplot = zeros(size(c1)+1);
     cplot(1:length(classes),1:length(classes)) = c1;
@@ -108,7 +117,7 @@ figure('Units','inches','Position',[1 1 7 6],'PaperPositionMode','auto');
     title('manual vs. classifier; score threshold = 0')
     % set figure parameters
     set(gcf,'color','w');
-    print(gcf,'-dtiff','-r200',[out_dir 'Classifier_vs_Manual.tif']);
+    print(gcf,'-dtiff','-r200',[out_dir 'Figs\Classifier_vs_Manual.tif']);
     hold off
 
 %figure;
@@ -122,7 +131,7 @@ figure('Units','inches','Position',[1 1 7 6],'PaperPositionMode','auto');
     for count = 1:length(ind),
         %    ii = find(win(ind(count),:));
         [~,Yfit_max(ind(count))] = max(Sfit(ind(count),:));
-    end;
+    end; 
     ind = find(isnan(Yfit_max));
     Yfit_max(ind) = length(classes)+1; %unclassified set to last class
     ind = find(Yfit_max);
@@ -140,12 +149,12 @@ figure('Units','inches','Position',[1 1 7 6],'PaperPositionMode','auto');
     disp('fraction unclassified:')
     disp(length(find(Yfit_max==length(classes2)))./length(Yfit_max))
     c3b = c3(1:end-1,1:end-1); %ignore the instances in 'unknown'
-    total = sum(c3b')';
+    total2 = sum(c3b')';
     [TP TN FP FN] = conf_mat_props(c3b);
     disp('error rate for accepted classifications (optimal score threshold):')
-    disp(1-sum(TP)./sum(total))
-    
-save([summarydir 'summary_classifier'] ,'classes2','total','Pd3','Pr3','FP','FN','TP','TN')
+    disp(1-sum(TP)./sum(total2))
+     
+save([out_dir 'Data\summary_classifier'] ,'classes2','classes','total','total2','Pd','Pr','Pd3','Pr3')
 
     figure('Units','inches','Position',[1 1 7 5],'PaperPositionMode','auto');
     bar([Pd3 Pr3 Pm3])
@@ -154,11 +163,11 @@ save([summarydir 'summary_classifier'] ,'classes2','total','Pd3','Pr3','FP','FN'
     text(1:length(classes2), -text_offset.*ones(size(classes2)), classes2, ...
         'interpreter', 'none', 'horizontalalignment', 'right', 'rotation', 45,'fontsize',12)
     set(gca, 'position', [ 0.13 0.35 0.8 0.6])
-    legend('Pd', 'Pr', 'Pmissed')
+    legend('Sensitivity', 'Precision', 'missed')
     set(gca, 'position', [ 0.13 0.35 0.8 0.6])
     % set figure parameters
     set(gcf,'color','w');
-    print(gcf,'-dtiff','-r200',[out_dir 'optimal_score_threshold.tif']);
+    print(gcf,'-dtiff','-r200',[out_dir 'Figs\optimal_score_threshold.tif']);
     hold off    
 
     figure('Units','inches','Position',[1 1 7 6],'PaperPositionMode','auto');
@@ -174,7 +183,7 @@ save([summarydir 'summary_classifier'] ,'classes2','total','Pd3','Pr3','FP','FN'
     title('manual vs. classifier; optimal score threshold')
     % set figure parameters
     set(gcf,'color','w');
-    print(gcf,'-dtiff','-r200',[out_dir 'manual_vs_classifier_optimal_score_threshold.tif']);
+    print(gcf,'-dtiff','-r200',[out_dir 'Figs/manual_vs_classifier_optimal_score_threshold.tif']);
     hold off
 
 end

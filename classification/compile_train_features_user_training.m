@@ -15,6 +15,7 @@ function [  ] = compile_train_features_user_training( manualpath , feapath_base,
 %class2skip = {'other'}; % for multiple use: {'myclass1' 'myclass2'}
 %class2skip = {}; %for case to skip none and include class2merge
 %class2group = {{'class1a' 'class1b'} {'class2a' 'class2b' 'class2c'}}; %use nested cells for multiple groups of 2 or more classes 
+%varargin={class2skip,class2group};
 
 class2skip = []; %initialize
 class2group = {[]};
@@ -28,6 +29,7 @@ end
 if length(class2group{1}) > 1 && ischar(class2group{1}{1}) %input of one group without outer cell 
     class2group = {class2group};
 end
+
 
 manual_files = dir([manualpath 'D*.mat']);
 manual_files = {manual_files.name}';
