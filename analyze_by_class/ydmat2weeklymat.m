@@ -1,4 +1,4 @@
-function [  y_wkmat, mdate_wkmat, yd_wk ] = ydmat2weeklymat( y_ydmat, yearlist )
+function [  y_wkmat, mdate_wkmat, yd_wk ] = ydmat2weeklymat( y_ydmat, yearlist)
 %function [ y_wkmat, mdate_wkmat, yd_wk ] = ydmat2weeklymat( y_ydmat, yearlist )
 %accept an input matrix of mean values for each yearday by year (y_ydmat)
 %output a matrix of mean values for each week by year (y_wkmat) 
@@ -18,5 +18,3 @@ end;
 iii = yd_wk(end):366;
 y_wkmat(count+1,:) = nanmean(y_ydmat(iii,:));
 end
-
-

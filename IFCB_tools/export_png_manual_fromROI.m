@@ -43,9 +43,7 @@ for filecount = 1:length(resultfilelist),
 %     'Tintinnopsis'
 %     'Balanion_sp'
 %     'other'}; %use this syntax to export ONLY the listed categories
-    %category = setdiff(class2use_manual, {'bad' 'ciliate' 'detritus'});  %use this syntax to export all EXCEPT the listed categories
-    category = setdiff(class2use_manual, {'Centric<10' 'unclassified' ...
-        'Beads' 'bubbles' 'Ash_glassy' 'Ask_dark', 'Detritus'...
+    category = setdiff(class2use_manual, {'Centric<10' 'unclassified' 'Beads' 'bubbles' 'Ash_glassy' 'Ask_dark', 'Detritus'...
         'Alexandrium_doublet' 'Alexandrium_triplet' 'Alexandrium_quad'});  %use this syntax to export all EXCEPT the listed categories
 
     disp(resultfile)

@@ -1,8 +1,8 @@
 function [ ] = classifier_oob_analysis( classifiername, out_dir)
 %[ ] = classifier_oob_analysis( classifername )
 %For example:
-classifiername = 'F:\IFCB104\manual\summary\UserExample_Trees_24Jul2019';
-out_dir = 'C:\Users\kudelalab\Documents\GitHub\bloom-baby-bloom\SCW\';
+%classifiername = 'F:\IFCB104\manual\summary\UserExample_Trees_24Jul2019';
+%out_dir = 'C:\Users\kudelalab\Documents\GitHub\bloom-baby-bloom\SCW\';
 % input classifier file name with full path
 % expects output from make_TreeBaggerClassifier*.m
 % Heidi M. Sosik, Woods HOle Oceanographic Institution, September 2014

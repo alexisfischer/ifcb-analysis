@@ -10,6 +10,10 @@ function [ ] = start_blob_batch_user_training(in_dir_base , out_dir_blob_base, p
 %   out_dir_blob_base = 'F:\IFCB104\blobs\2019\'; %USER local data location for blob reults
 %   parallel_proc_flag = true; %USER true to enable parallel processing
 
+%in_dir_base = '/Users/afischer/GoogleDrive_WHOI/Shimada/data/2019/';
+%out_dir_blob_base = '/Users/afischer/GoogleDrive_WHOI/Shimada/data/2019/';
+%parallel_proc_flag = false;
+
 if ~exist('parallel_proc_flag', 'var')
     parallel_proc_flag = false; %default
 end
