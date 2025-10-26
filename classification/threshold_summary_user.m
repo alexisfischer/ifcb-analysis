@@ -64,7 +64,6 @@ subplot(2,2,2), plot(threlist, Coeffs(:,1), '.-'), xlabel('threshold score'), yl
 subplot(2,2,3), plot(threlist, Coeffs(:,2), '.-'), xlabel('threshold score'), ylabel('slope'), line([.7 .7], ylim, 'color', 'r')
 subplot(2,2,4), plot(threlist, RMSE, '.-'), xlabel('threshold score'), ylabel('RMSE'), line([.7 .7], ylim, 'color', 'r')
 
-
 %to calculate what percentage of the classifier counts are within a poisson
 %confidence interval of the manual counts
 
